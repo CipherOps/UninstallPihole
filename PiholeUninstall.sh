@@ -24,6 +24,12 @@ else
     echo "nameserver 9.9.9.9" > /etc/resolv.conf
 fi
 
+# check if systemd-resolvd is installed and enable it
+if [ -f "/usr/lib/systemd/resolv.conf" ]; then
+    ln -sf /usr/lib/systemd/resolv.conf /etc/resolv.conf
+    systemctl enable --now systemd-resolved
+fi
+
   # check if system uses Network Manager or wicked
   if [ -f /etc/NetworkManager/NetworkManager.conf ]; then
     # restart Network Manager service
