@@ -9,7 +9,10 @@ echo
 echo "Press C to proceed with the uninstallation, or any other key to cancel."
 read -r confirm
 
-if [ "$confirm" = "C" ]; then
+if [ "$confirm" != "C" ]; then
+  echo "Uninstallation cancelled."
+  exit
+fi
   # uninstall pihole
   sudo pihole uninstall
 
@@ -33,10 +36,10 @@ fi
   # check if system uses Network Manager or wicked
   if [ -f /etc/NetworkManager/NetworkManager.conf ]; then
     # restart Network Manager service
-    sudo service NetworkManager restart
+    sudo systemctl restart NetworkManager
   elif [ -f /etc/sysconfig/network/config ]; then
     # restart wickd service
-    sudo service wickd restart
+    sudo systemctl restart wicked
   fi
 
   # check if system uses netplan
@@ -59,6 +62,4 @@ EOT
     # unable to determine how to restart networking service
     echo "Error: unable to determine how to restart networking service. Please restart it manually."
   fi
-else
-  echo "Uninstallation cancelled."
-fi
+done
