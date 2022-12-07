@@ -1,9 +1,11 @@
 #!/bin/bash
 
 # display information about dependencies
+echo -e '\033[0;33m'
 echo "PI-HOLE WILL TRY TO REMOVE SYSTEM FILES DURING UNINSTALL!"
 echo
-echo "PLEASE READ WHAT EACH DEPENDENCY IS BEFORE HITTING Y TO REMOVE"
+echo "WHEN PIHOLE ASKS YOU IF YOU WANT TO REMOVE DEPENDENCIES HIT N AND LEAVE THEM ALL INSTALLED"
+echo
 echo "MAKE SURE NO DEVICE ON YOUR NETWORK IS STILL SET TO USE PI-HOLE FOR DNS"
 echo
 echo "Press C to proceed with the uninstallation, or any other key to cancel."
@@ -11,10 +13,12 @@ read -r confirm
 
 if [ "$confirm" != "C" ]; then
   echo "Uninstallation cancelled."
+  echo -e '\033[0m'
   exit
 fi
   # uninstall pihole
   sudo pihole uninstall
+  echo -e '\033[0;33m'
   echo "Pihole uninstalled, removed Pihole directory"
   # remove pihole directory
   sudo rm -rf /etc/pihole/
@@ -69,4 +73,5 @@ EOT
     echo "Error: unable to determine how to restart networking service. Please restart it manually."
   fi
   echo "Pihole is uninstalled"
+  echo -e '\033[0m'
 done
